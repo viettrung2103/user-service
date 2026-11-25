@@ -2,7 +2,7 @@ package test_data
 
 import (
 	"github.com/google/uuid"
-	"github.com/viettrung2103/bookmark-management/internal/app/model"
+	"github.com/viettrung2103/user-service/internal/app/model"
 )
 
 // Global test variables/constants accessible to all tests in this package

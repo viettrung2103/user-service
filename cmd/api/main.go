@@ -1,6 +1,6 @@
 package main
 
-import "github.com/viettrung2103/bookmark-management/internal/infrastructure"
+import "github.com/viettrung2103/user-service/internal/infrastructure"
 
 // @title Bookmark API
 // @version 4.0.0

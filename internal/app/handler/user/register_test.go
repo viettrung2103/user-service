@@ -13,8 +13,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/viettrung2103/bookmark-lib/pkg/dbutils"
-	"github.com/viettrung2103/bookmark-management/internal/app/model"
-	userMock "github.com/viettrung2103/bookmark-management/internal/app/service/user/mocks"
+	"github.com/viettrung2103/user-service/internal/app/model"
+	userMock "github.com/viettrung2103/user-service/internal/app/service/user/mocks"
 )
 
 func TestUserHandler_Register(t *testing.T) {

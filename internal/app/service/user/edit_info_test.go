@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	repoMocks "github.com/viettrung2103/bookmark-management/internal/app/repository/user/mocks"
+	repoMocks "github.com/viettrung2103/user-service/internal/app/repository/user/mocks"
 
 	//repoMocks "github.com/viettrung2103/bookmark-management/internal/app/repository/mocks"
 	"github.com/viettrung2103/bookmark-lib/pkg/dbutils"

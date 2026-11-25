@@ -6,10 +6,10 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
-	"github.com/viettrung2103/bookmark-management/internal/app/model"
-	//"github.com/viettrung2103/bookmark-management/internal/app/repository/user"
+	"github.com/viettrung2103/user-service/internal/app/model"
+	//"github.com/viettrung2103/user-service/internal/app/repository/user"
 	"github.com/viettrung2103/bookmark-lib/pkg/dbutils"
-	repoMocks "github.com/viettrung2103/bookmark-management/internal/app/repository/user/mocks"
+	repoMocks "github.com/viettrung2103/user-service/internal/app/repository/user/mocks"
 	//hashingMocks"github.com/viettrung2103/bookmark-lib/pkg/stringutils/mocks"
 )
 

@@ -1,0 +1,164 @@
+definitions:
+  model.User:
+    properties:
+      created_at:
+        type: string
+      display_name:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  user.editInput:
+    properties:
+      display_name:
+        type: string
+      email:
+        type: string
+    required:
+    - display_name
+    - email
+    type: object
+  user.loginInput:
+    properties:
+      password:
+        minLength: 8
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  user.registerInput:
+    properties:
+      display_name:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - display_name
+    - email
+    - password
+    - username
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API for bookmark management
+  title: Bookmark API
+  version: 4.0.0
+paths:
+  /v1/self/info:
+    get:
+      consumes:
+      - applicatin/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            properties:
+              data:
+                $ref: '#/definitions/model.User'
+            type: object
+      security:
+      - BearerAuth: []
+      summary: get your current user information
+      tags:
+      - user
+    put:
+      consumes:
+      - application/json
+      description: edit your current user info
+      parameters:
+      - description: Input required
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/user.editInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: edit your current info
+      tags:
+      - user
+  /v1/users/login:
+    post:
+      consumes:
+      - application/json
+      description: Return a jwt toke if the input is correct
+      parameters:
+      - description: Input required
+        in: body
+        name: input
+        schema:
+          $ref: '#/definitions/user.loginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            properties:
+              data:
+                type: string
+              message:
+                type: string
+            type: object
+      summary: return a jwt token if the input is correct
+      tags:
+      - user
+  /v1/users/register:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: User registration input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/user.registerInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            properties:
+              data:
+                $ref: '#/definitions/model.User'
+              message:
+                type: string
+            type: object
+      summary: Create a netype createUser struct {
+      tags:
+      - user
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -9,7 +9,7 @@ import (
 	"github.com/viettrung2103/bookmark-lib/pkg/dbutils"
 	"github.com/viettrung2103/bookmark-lib/pkg/requestutils"
 	"github.com/viettrung2103/bookmark-lib/pkg/response"
-	"github.com/viettrung2103/bookmark-management/internal/app/service/user"
+	"github.com/viettrung2103/user-service/internal/app/service/user"
 )
 
 type loginInput struct {

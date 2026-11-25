@@ -6,8 +6,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
-	"github.com/viettrung2103/bookmark-management/internal/app/model"
-	repoMocks "github.com/viettrung2103/bookmark-management/internal/app/repository/user/mocks"
+	"github.com/viettrung2103/user-service/internal/app/model"
+	repoMocks "github.com/viettrung2103/user-service/internal/app/repository/user/mocks"
 	//serviceMocks"github.com/viettrung2103/bookmark-management/internal/app/service/mocks"
 	"github.com/viettrung2103/bookmark-lib/pkg/dbutils"
 	hashingMocks "github.com/viettrung2103/bookmark-lib/pkg/stringutils/mocks"

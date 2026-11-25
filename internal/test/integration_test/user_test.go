@@ -13,11 +13,12 @@ import (
 	"github.com/stretchr/testify/mock"
 	//"github.com/stretchr/testify/mock"
 	jwtMocks "github.com/viettrung2103/bookmark-lib/pkg/jwtutils/mocks"
+	redistest "github.com/viettrung2103/bookmark-lib/pkg/redis"
 	"github.com/viettrung2103/bookmark-lib/pkg/stringutils"
-	"github.com/viettrung2103/bookmark-management/internal/api"
-	"github.com/viettrung2103/bookmark-management/internal/app/model"
-	"github.com/viettrung2103/bookmark-management/internal/config"
-	"github.com/viettrung2103/bookmark-management/internal/test/data/fixtures"
+	"github.com/viettrung2103/user-service/internal/api"
+	"github.com/viettrung2103/user-service/internal/app/model"
+	"github.com/viettrung2103/user-service/internal/config"
+	"github.com/viettrung2103/user-service/internal/test/data/fixtures"
 	"gorm.io/gorm"
 )
 
@@ -113,7 +114,7 @@ func TestRegisterEndpoint(t *testing.T) {
 			testRouter := api.NewEngine(&api.EngineOpts{
 				Engine: gin.New(),
 				Cfg:    &config.Config{},
-				Redis:  nil,
+				Redis:  redistest.InitMockRedis(t),
 				SqlDB:  fixtures,
 			})
 
@@ -262,7 +263,7 @@ func TestEngine_Login(t *testing.T) {
 			testRouter := api.NewEngine(&api.EngineOpts{
 				Engine: gin.New(),
 				Cfg:    &config.Config{},
-				Redis:  nil,
+				Redis:  redistest.InitMockRedis(t),
 				SqlDB:  db,
 				JwtGen: mockJwt, // Inject the mock so token generation doesn't panic
 				JwtVal: nil,     // Not needed for Login endpoint

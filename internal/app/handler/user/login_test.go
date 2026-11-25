@@ -11,11 +11,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
-	userMock "github.com/viettrung2103/bookmark-management/internal/app/service/user/mocks"
+	userMock "github.com/viettrung2103/user-service/internal/app/service/user/mocks"
 
 	//userMocks"github.com/viettrung2103/bookmark-management/internal/app/service/user/mocks"
 	"github.com/viettrung2103/bookmark-lib/pkg/dbutils"
-	"github.com/viettrung2103/bookmark-management/internal/app/service/user"
+	"github.com/viettrung2103/user-service/internal/app/service/user"
 )
 
 // TestUserHandler_Login tests the Login function

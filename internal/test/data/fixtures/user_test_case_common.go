@@ -1,7 +1,7 @@
 package fixtures
 
 import (
-	"github.com/viettrung2103/bookmark-management/internal/app/model"
+	"github.com/viettrung2103/user-service/internal/app/model"
 	"gorm.io/gorm"
 )
 

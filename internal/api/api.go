@@ -8,30 +8,20 @@ import (
 	"github.com/redis/go-redis/v9"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/viettrung2103/bookmark-lib/pkg/middleware"
+	"github.com/viettrung2103/bookmark-lib/pkg/ratelimit"
 	"github.com/viettrung2103/bookmark-management/docs"
-	"github.com/viettrung2103/bookmark-management/internal/api/middleware"
-	bookmarkHandler "github.com/viettrung2103/bookmark-management/internal/app/handler/bookmark"
-	healthCheckHandler "github.com/viettrung2103/bookmark-management/internal/app/handler/healthcheck"
-	urlHandler "github.com/viettrung2103/bookmark-management/internal/app/handler/url"
-	userHandler "github.com/viettrung2103/bookmark-management/internal/app/handler/user"
-	"github.com/viettrung2103/bookmark-management/internal/app/ratelimit"
-	"github.com/viettrung2103/bookmark-management/internal/app/repository/cache"
+	userHandler "github.com/viettrung2103/user-service/internal/app/handler/user"
 
-	bookmarkRepository "github.com/viettrung2103/bookmark-management/internal/app/repository/bookmark"
-	healthCheckRepository "github.com/viettrung2103/bookmark-management/internal/app/repository/healthcheck"
-	urlRepository "github.com/viettrung2103/bookmark-management/internal/app/repository/url"
-	userRepository "github.com/viettrung2103/bookmark-management/internal/app/repository/user"
+	userRepository "github.com/viettrung2103/user-service/internal/app/repository/user"
 
-	bookmarkService "github.com/viettrung2103/bookmark-management/internal/app/service/bookmark"
-	healthCheckService "github.com/viettrung2103/bookmark-management/internal/app/service/healthcheck"
-	urlService "github.com/viettrung2103/bookmark-management/internal/app/service/url"
-	userService "github.com/viettrung2103/bookmark-management/internal/app/service/user"
+	userService "github.com/viettrung2103/user-service/internal/app/service/user"
 
 	"github.com/viettrung2103/bookmark-lib/pkg/jwtutils"
 	"github.com/viettrung2103/bookmark-lib/pkg/stringutils"
 	"gorm.io/gorm"
 
-	"github.com/viettrung2103/bookmark-management/internal/config"
+	"github.com/viettrung2103/user-service/internal/config"
 )
 
 const version = 1
@@ -89,21 +79,21 @@ func (e *engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 }
 
 type handlers struct {
-	healthCheckHandler healthCheckHandler.Handler
-	linkHandler        urlHandler.Handler
-	userHandler        userHandler.Handler
-	bookmarkHandler    bookmarkHandler.Handler
+	//healthCheckHandler healthCheckHandler.Handler
+	//linkHandler        urlHandler.Handler
+	userHandler userHandler.Handler
+	//bookmarkHandler    bookmarkHandler.Handler
 }
 
 func (e *engine) initHandlers() *handlers {
-	healthCheckRepo := healthCheckRepository.NewRepository(e.redis)
-	shortenUrlRepo := urlRepository.NewRepository(e.redis)
-
-	keyGen := stringutils.NewKeyGenerator()
-
-	healthCheckSvc := healthCheckService.NewService(healthCheckRepo)
-
-	healthCheckHdlr := healthCheckHandler.NewHandler(healthCheckSvc)
+	//healthCheckRepo := healthCheckRepository.NewRepository(e.redis)
+	//shortenUrlRepo := urlRepository.NewRepository(e.redis)
+	//
+	//keyGen := stringutils.NewKeyGenerator()
+	//
+	//healthCheckSvc := healthCheckService.NewService(healthCheckRepo)
+	//
+	//healthCheckHdlr := healthCheckHandler.NewHandler(healthCheckSvc)
 
 	passwordHashing := stringutils.NewPasswordHasher()
 
@@ -120,27 +110,27 @@ func (e *engine) initHandlers() *handlers {
 	userSvc := userService.NewService(userSvcInput)
 	userHdlr := userHandler.NewHandler(userSvc)
 
-	cacheRepo := cache.NewRedisDB(e.redis)
-
-	bookmarkRepo := bookmarkRepository.NewRepository(e.db, keyGen)
-	bookmarkSvcOpts := &bookmarkService.BookmarkServiceOpts{
-		Keygen:             keyGen,
-		BookmarkRepository: bookmarkRepo,
-	}
-
-	shortenUrlSvc := urlService.NewService(shortenUrlRepo, bookmarkRepo, keyGen)
-
-	bookmarkSvc := bookmarkService.NewService(bookmarkSvcOpts)
-	bookmarkCacheSvc := bookmarkService.NewBookmarkCacheService(bookmarkSvc, cacheRepo)
-
-	shortenUrlHdlr := urlHandler.NewShortenLink(shortenUrlSvc, e.cfg)
-	bookmarkHdlr := bookmarkHandler.NewHandler(bookmarkCacheSvc)
+	//cacheRepo := cache.NewRedisDB(e.redis)
+	//
+	//bookmarkRepo := bookmarkRepository.NewRepository(e.db, keyGen)
+	//bookmarkSvcOpts := &bookmarkService.BookmarkServiceOpts{
+	//	Keygen:             keyGen,
+	//	BookmarkRepository: bookmarkRepo,
+	//}
+	//
+	//shortenUrlSvc := urlService.NewService(shortenUrlRepo, bookmarkRepo, keyGen)
+	//
+	//bookmarkSvc := bookmarkService.NewService(bookmarkSvcOpts)
+	//bookmarkCacheSvc := bookmarkService.NewBookmarkCacheService(bookmarkSvc, cacheRepo)
+	//
+	//shortenUrlHdlr := urlHandler.NewShortenLink(shortenUrlSvc, e.cfg)
+	//bookmarkHdlr := bookmarkHandler.NewHandler(bookmarkCacheSvc)
 
 	return &handlers{
-		healthCheckHandler: healthCheckHdlr,
-		linkHandler:        shortenUrlHdlr,
-		userHandler:        userHdlr,
-		bookmarkHandler:    bookmarkHdlr,
+		//healthCheckHandler: healthCheckHdlr,
+		//linkHandler:        shortenUrlHdlr,
+		userHandler: userHdlr,
+		//bookmarkHandler:    bookmarkHdlr,
 	}
 
 }
@@ -167,7 +157,7 @@ func (e *engine) InitRoutes() {
 	//jwtAuth := middleware.NewJWTAuth(e.jwtVal)
 	allMiddlewares := e.initMiddlewares()
 
-	e.eng.GET("/health-check", allHandlers.healthCheckHandler.HealthCheck)
+	//e.eng.GET("/health-check", allHandlers.healthCheckHandler.HealthCheck)
 
 	//int swagger routes
 	docs.SwaggerInfo.Host = e.cfg.Hostname
@@ -179,10 +169,10 @@ func (e *engine) InitRoutes() {
 	publicV1Routes.Use(allMiddlewares.rateLimit.RateLimitPublic())
 	{
 		// url route
-		linkBase := publicV1Routes.Group("/links")
-
-		linkBase.POST("/shorten", allHandlers.linkHandler.ShortenUrlLink)
-		linkBase.GET("/redirect/:code", allHandlers.linkHandler.RedirectUrl)
+		//linkBase := publicV1Routes.Group("/links")
+		//
+		//linkBase.POST("/shorten", allHandlers.linkHandler.ShortenUrlLink)
+		//linkBase.GET("/redirect/:code", allHandlers.linkHandler.RedirectUrl)
 
 		//user route
 		userBase := publicV1Routes.Group("/users")
@@ -205,10 +195,10 @@ func (e *engine) InitRoutes() {
 			privateV1Routes.PUT("/self/info", allHandlers.userHandler.EditSelfInfo)
 
 			//bookmark
-			privateV1Routes.POST("/bookmarks", allHandlers.bookmarkHandler.AddBookmark)
-			privateV1Routes.GET("/bookmarks", allHandlers.bookmarkHandler.GetBookmarks)
-			privateV1Routes.PUT("/bookmarks/:id", allHandlers.bookmarkHandler.EditBookmark)
-			privateV1Routes.DELETE("/bookmarks/:id", allHandlers.bookmarkHandler.DeleteBookmark)
+			//privateV1Routes.POST("/bookmarks", allHandlers.bookmarkHandler.AddBookmark)
+			//privateV1Routes.GET("/bookmarks", allHandlers.bookmarkHandler.GetBookmarks)
+			//privateV1Routes.PUT("/bookmarks/:id", allHandlers.bookmarkHandler.EditBookmark)
+			//privateV1Routes.DELETE("/bookmarks/:id", allHandlers.bookmarkHandler.DeleteBookmark)
 		}
 		//{
 		//	// user-related

@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/viettrung2103/bookmark-lib/pkg/dbutils"
-	"github.com/viettrung2103/bookmark-management/internal/app/model"
+	"github.com/viettrung2103/user-service/internal/app/model"
 )
 
 // GetUserByUsername gets a user by username

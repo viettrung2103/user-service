@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/viettrung2103/bookmark-lib/pkg/dbutils"
-	"github.com/viettrung2103/bookmark-management/internal/app/model"
+	"github.com/viettrung2103/user-service/internal/app/model"
 )
 
 // CreateUser creates a new user

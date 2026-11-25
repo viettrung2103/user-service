@@ -22,7 +22,7 @@ func CreateDBClient() *gorm.DB {
 
 	common.HandleError(err)
 
-	db.MigrationPostgresDB(dbClient, "up", 0)
+	err = db.MigrationPostgresDB(dbClient, "up", 0)
 
 	//db.MigrationPostgresDB(dbClient, "down", 0)
 

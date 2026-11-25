@@ -26,7 +26,7 @@ FROM base AS build
 RUN swag init -g cmd/api/main.go output -o docs
 
 RUN GOOS=linux go build -tags musl -ldflags "-w -s" -o user_service cmd/api/main.go
-RUN GOOS=linux go build -tags musl -ldflags "-w -s" -o user_service_migrate cmd/migrate/main.go
+#RUN GOOS=linux go build -tags musl -ldflags "-w -s" -o user_service_migrate cmd/migrate/main.go
 
 
 FROM base AS test-exec
@@ -53,7 +53,7 @@ WORKDIR /app
 #COPY --from=build /opt/app/user_service ./user_service
 #COPY --from=build /opt/app/docs ./docs
 COPY --from=build /opt/app/user_service /app/user_service
-COPY --from=build /opt/app/user_service_migrate /app/user_service_migrate
+#COPY --from=build /opt/app/user_service_migrate /app/user_service_migrate
 COPY --from=build /opt/app/docs /app/docs
 COPY --from=build /opt/app/migrations /app/migrations
 
